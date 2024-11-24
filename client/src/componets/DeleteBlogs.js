@@ -8,9 +8,11 @@ const DeleteButton = ({ blogId, onDelete }) => {
       // Send a delete request to your backend
       await axios.delete(`${config.BASE_URL}/api/blogs/${blogId}`);
       // Call the onDelete callback to update the UI
-      onDelete();
+      alert("Deleted")
+      window.location.reload();
     } catch (error) {
       console.error("Error deleting blog:", error);
+      alert("deleted")
     }
   };
 

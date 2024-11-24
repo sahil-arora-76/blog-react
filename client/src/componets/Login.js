@@ -32,25 +32,34 @@ const Login = () => {
       })
       .catch((err) => console.log(err));
 
-    const data = await res.data;
-    console.log("return");
-    console.log(data);
+    const data = await res?.data;
     return data;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(inputs);
     if (isSignup) {
       sendRequest("signup")
-        .then((data) => localStorage.setItem("userId", data.user._id))
-        .then(() => dispath(authActions.login()))
-        .then(() => naviagte("/blogs"));
+        .then((data) => {
+          if (data && data.user && data.user._id) {
+            localStorage.setItem("userId", data.user._id)
+            dispath(authActions.login())
+            naviagte("/blogs")
+          } else {
+            alert("invalid cred")
+          }
+        })
     } else {
       sendRequest()
-        .then((data) => localStorage.setItem("userId", data.user._id))
-        .then(() => dispath(authActions.login()))
-        .then(() => naviagte("/blogs"));
+        .then(async (data) => {
+          if (data && data.user && data.user._id) {
+            localStorage.setItem("userId", data.user._id)
+            dispath(authActions.login())
+            naviagte("/blogs")
+          } else {
+            alert("invalid cred")
+          }
+        })
     }
   };
   return (
